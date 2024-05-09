@@ -1,9 +1,10 @@
 @echo off
-title CHDMan Menu v1.2
+title CHDMan Menu v1.3
 
 
 set "chdFileCount=0"
 set "otherFileCount=0"
+
 set "compressedFileCount=0"
 set "decompressedFileCount=0"
 set "deletedFileCount=0"
@@ -84,7 +85,7 @@ cls
 set "startTime=%time%"
 for /r %%i in (*.cue, *.gdi, *.iso) do (
     echo.
-    echo Progress: %compressedFileCount% of %otherFileCount%
+    call echo Progress: %%compressedFileCount%% of %%otherFileCount%%
     echo.
     set /a failureCount=failureCount+1
     chdman createcd -i "%%i" -o "%%~pi%%~ni.chd" && (
@@ -107,7 +108,7 @@ goto Finished
 cls
 for /r %%i in (*.cue,*.gdi, *.iso) do (
     echo.
-    echo Progress: %compressedFileCount% of %otherFileCount%
+    call echo Progress: %%compressedFileCount%% of %%otherFileCount%%
     echo.
     set /a failureCount=failureCount+1
     chdman createdvd -i "%%i" -o "%%~pi%%~ni.chd" && (
@@ -130,7 +131,7 @@ goto Finished
 cls
 for /r %%i in (*.cue, *.gdi, *.iso) do (
     echo.
-    echo Progress: %compressedFileCount% of %otherFileCount%
+    call echo Progress: %%compressedFileCount%% of %%otherFileCount%%
     echo.
     set /a failureCount=failureCount+1
     chdman createdvd -hs 2048 -i "%%i" -o "%%~pi%%~ni.chd" && (
@@ -153,7 +154,7 @@ goto Finished
 cls
 for /r %%i in (*.chd) do (
     echo.
-    echo Progress: %decompressedFileCount% of %chdFileCount%
+    call echo Progress: %%decompressedFileCount%% of %%chdFileCount%%
     echo.
     set /a failureCount=failureCount+1
     chdman extractdvd -i "%%i" -o "%%~pi%%~ni.iso" && (
@@ -167,7 +168,7 @@ for /r %%i in (*.chd) do (
     )
 )
 echo.
-echo Progress: %decompressedFileCount% of %otherFileCount%
+echo Progress: %decompressedFileCount% of %chdFileCount%
 echo.
 goto Finished
 
@@ -176,7 +177,7 @@ goto Finished
 cls
 for /r %%i in (*.chd) do (
     echo.
-    echo Progress: %decompressedFileCount% of %chdFileCount%
+    call echo Progress: %%decompressedFileCount%% of %%chdFileCount%%
     echo.
     set /a failureCount=failureCount+1
     chdman extractcd -i "%%i" -o "%%~pi%%~ni.cue" && (
@@ -190,7 +191,7 @@ for /r %%i in (*.chd) do (
     )
 )
 echo.
-echo Progress: %decompressedFileCount% of %otherFileCount%
+echo Progress: %decompressedFileCount% of %chdFileCount%
 echo.
 goto Finished
 
@@ -199,7 +200,7 @@ goto Finished
 cls
 for /r %%i in (*.chd) do (
     echo.
-    echo Progress: %decompressedFileCount% of %chdFileCount%
+    call echo Progress: %%decompressedFileCount%% of %%chdFileCount%%
     echo.
     set /a failureCount=failureCount+1
     chdman extractcd -i "%%i" -o "%%~pi%%~ni.gdi" && (
@@ -213,12 +214,14 @@ for /r %%i in (*.chd) do (
     )
 )
 echo.
-echo Progress: %decompressedFileCount% of %otherFileCount%
+echo Progress: %decompressedFileCount% of %chdFileCount%
 echo.
 goto Finished
 
 
 :Finished
+set "chdFileCount=0"
+set "otherFileCount=0"
 for /r %%i in (*.cue, *.gdi, *.iso) do (
     set /a otherFileCount=otherFileCount+1
 )
