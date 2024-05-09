@@ -43,7 +43,7 @@ echo Select which operation you'd like to perform.
 echo.
 echo    [1] Create CD CHD file(s) - PSX, Dreamcast, NeoGeo CD, (some) PS2
 echo    [2] Create DVD CHD file(s) - (most) PS2 (default hunk size)
-echo    [3] Create DVD CHD file(s) - PSP (with 2048 hunk size)
+echo    [3] Create DVD CHD file(s) - PSP (2048 hunk size)
 echo.
 echo    [4] Extract DVD CHD to ISO
 echo    [5] Extract CD CHD to CUE/BIN
