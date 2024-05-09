@@ -67,13 +67,10 @@ echo.
 echo Note: .bin files will not be destroyed.
 echo.
 set /p "deleteSourceFiles=input->"
-
 set "startTime=%time%"
-
 if %input%==1 goto CUE-GDI-ISO-to-CHD-CD
 if %input%==2 goto CUE-GDI-ISO-to-CHD-DVD
 if %input%==3 goto CUE-GDI-ISO-to-CHD-DVD-PSP
-
 if %input%==4 goto Extract-DVD-CHD-to-ISO
 if %input%==5 goto Extract-CD-CHD-to-CUE
 if %input%==6 goto Extract-CD-CHD-to-GDI
@@ -244,3 +241,4 @@ echo Start time: %startTime%
 echo End time:   %endTime%
 echo.
 pause
+goto eof
