@@ -11,13 +11,14 @@ set "failureCount=0"
 
 set "startTime=%time%"
 set "endTime=%time%"
+set "failureList=null"
 
 set "deleteSourceFiles=0"
 
 
 :Welcome
 for /r %%i in (*.cue, *.gdi, *.iso) do (
-    set /a otherFileCount=fileCount+1
+    set /a otherFileCount=otherFileCount+1
 )
 for /r %%i in (*.chd) do (
     set /a chdFileCount=chdFileCount+1
@@ -65,6 +66,9 @@ echo.
 echo Note: .bin files will not be destroyed.
 echo.
 set /p "deleteSourceFiles=input->"
+
+set "startTime=%time%"
+
 if %input%==1 goto CUE-GDI-ISO-to-CHD-CD
 if %input%==2 goto CUE-GDI-ISO-to-CHD-DVD
 if %input%==3 goto CUE-GDI-ISO-to-CHD-DVD-PSP
@@ -78,26 +82,27 @@ goto SelectOperation
 :CUE-GDI-ISO-to-CHD-CD
 cls
 set "startTime=%time%"
-for /r %%i in (*.cue,*.gdi, *.iso) do (
+for /r %%i in (*.cue, *.gdi, *.iso) do (
     echo.
     echo Progress: %compressedFileCount% of %otherFileCount%
     echo.
-    chdman createcd -i "%%i" -o "%%~pi%%~ni.chd"
-    set /a compressedFileCount=compressedFileCount+1
+    chdman createcd -i "%%i" -o "%%~pi%%~ni.chd" && (
+        set /a compressedFileCount=compressedFileCount+1
 
-    if %deleteSourceFiles%==1 (
-        del "%%i"
-        set /a deletedFileCount=deletedFileCount+1
+        if %deleteSourceFiles%==2 (
+            del "%%i"
+            set /a deletedFileCount=deletedFileCount+1
+        )
     )
-
-    echo Progress: %compressedFileCount% of %otherFileCount%
 )
+echo.
+echo Progress: %compressedFileCount% of %otherFileCount%
+echo.
 goto Finished
 
 
 :CUE-GDI-ISO-to-CHD-DVD
 cls
-set "startTime=%time%"
 for /r %%i in (*.cue,*.gdi, *.iso) do (
     echo.
     echo Progress: %compressedFileCount% of %otherFileCount%
@@ -109,20 +114,17 @@ for /r %%i in (*.cue,*.gdi, *.iso) do (
             del "%%i"
             set /a deletedFileCount=deletedFileCount+1
         )
-        echo.
-        echo Progress: %compressedFileCount% of %otherFileCount%
-        echo.
-    ) else (
-        set /a failureCount=failureCount+1
     )
 )
+echo.
+echo Progress: %compressedFileCount% of %otherFileCount%
+echo.
 goto Finished
 
 
 :CUE-GDI-ISO-to-CHD-DVD-PSP
 cls
-set "startTime=%time%"
-for /r %%i in (*.cue,*.gdi, *.iso) do (
+for /r %%i in (*.cue, *.gdi, *.iso) do (
     echo.
     echo Progress: %compressedFileCount% of %otherFileCount%
     echo.
@@ -133,16 +135,16 @@ for /r %%i in (*.cue,*.gdi, *.iso) do (
             del "%%i"
             set /a deletedFileCount=deletedFileCount+1
         )
-    ) else (
-        set /a failureCount=failureCount+1
     )
 )
+echo.
+echo Progress: %compressedFileCount% of %otherFileCount%
+echo.
 goto Finished
 
 
 :Extract-DVD-CHD-to-ISO
 cls
-set "startTime=%time%"
 for /r %%i in (*.chd) do (
     echo.
     echo Progress: %decompressedFileCount% of %chdFileCount%
@@ -154,16 +156,16 @@ for /r %%i in (*.chd) do (
             del "%%i"
             set /a deletedFileCount=deletedFileCount+1
         )
-    ) else (
-        set /a failureCount=failureCount+1
     )
 )
+echo.
+echo Progress: %decompressedFileCount% of %otherFileCount%
+echo.
 goto Finished
 
 
 :Extract-CD-CHD-to-CUE
 cls
-set "startTime=%time%"
 for /r %%i in (*.chd) do (
     echo.
     echo Progress: %decompressedFileCount% of %chdFileCount%
@@ -174,19 +176,17 @@ for /r %%i in (*.chd) do (
         if %deleteSourceFiles%==2 (
             del "%%i"
             set /a deletedFileCount=deletedFileCount+1
-        ) else (
-            set /a failureCount=failureCount+1
         )
-    ) else (
-        set /a failureCount=failureCount+1
     )
 )
+echo.
+echo Progress: %decompressedFileCount% of %otherFileCount%
+echo.
 goto Finished
 
 
 :Extract-CD-CHD-to-GDI
 cls
-set "startTime=%time%"
 for /r %%i in (*.chd) do (
     echo.
     echo Progress: %decompressedFileCount% of %chdFileCount%
@@ -196,22 +196,32 @@ for /r %%i in (*.chd) do (
             del "%%i"
             set /a deletedFileCount=deletedFileCount+1
         )
-    ) else (
-        set /a failureCount=failureCount+1
     )
 )
+echo.
+echo Progress: %decompressedFileCount% of %otherFileCount%
+echo.
 goto Finished
 
 
 :Finished
+for /r %%i in (*.cue, *.gdi, *.iso) do (
+    set /a otherFileCount=otherFileCount+1
+)
+for /r %%i in (*.chd) do (
+    set /a chdFileCount=chdFileCount+1
+)
 set "endTime=%time%"
 echo.
 echo Done!
 echo.
+echo %otherFileCount% file(s) found
+echo %chdFileCount% .CHD file(s) found
+echo.
 echo %compressedFileCount% files were compressed.
 echo %decompressedFileCount% files were decompressed.
 echo %deletedFileCount% files were deleted.
-echo %failureCount% files failed to process.
+:: echo %failureCount% files failed to process.
 echo.
 echo Start time: %startTime%
 echo End time:   %endTime%
