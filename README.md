@@ -1,9 +1,9 @@
 # chdman-menu
 
-##Instructions:
+## Instructions:
 Just run the chdman.bat file.
 
-##Features:
+## Features:
 - Includes option to delete files when finished.
 - Places .chd files at the same location as the original file.
 - Option to create DVD .chd files with 2048 hunk size (for PPSSPP).
