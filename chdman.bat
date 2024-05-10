@@ -1,41 +1,27 @@
 @echo off
-title CHDMan Menu v1.3
+title CHDMan Menu v1.4
 
-
+:: File Counts
 set "chdFileCount=0"
 set "cueFileCount=0"
 set "gdiFileCount=0"
 set "isoFileCount=0"
 set "totalFileCount=0"
 
+:: Progress Tracking
 set "compressedFileCount=0"
 set "decompressedFileCount=0"
 set "deletedFileCount=0"
 set "failureCount=0"
-
 set "startTime=%time%"
 set "endTime=%time%"
-set "failureList=null"
 
+:: Settings
 set "deleteSourceFiles=1"
 
 
-
 :Welcome
-goto SelectOperation
-
-:NoSourceFiles
 cls
-echo.
-echo No valid files were found!
-echo.
-echo Place chadman.exe/bat in the same directory as your .CHD, .CUE, .GDI, or .ISO file(s).
-echo.
-pause
-goto eof
-
-
-:SelectOperation
 echo.
 echo ============ Main Menu ============
 echo.
@@ -53,9 +39,11 @@ echo    [5] Extract CD CHD to CUE/BIN
 echo    [6] Extract CD CHD to GDI
 echo.
 set /p "input=input->"
+
+:AskDeleteFiles
 cls
 echo.
-echo ============ Main Menu ============
+echo =========== Delete Files? ===========
 echo.
 echo Delete source file(s) after compression/extraction?
 echo.
@@ -72,11 +60,25 @@ if %input%==3 goto CUE-GDI-ISO-to-CHD-DVD-PSP
 if %input%==4 goto Extract-DVD-CHD-to-ISO
 if %input%==5 goto Extract-CD-CHD-to-CUE
 if %input%==6 goto Extract-CD-CHD-to-GDI
-goto SelectOperation
+goto Welcome
+
+
+:NoSourceFiles
+cls
+echo.
+echo No valid files were found!
+echo.
+echo Place chadman.exe/bat in the same directory as your .CHD, .CUE, .GDI, or .ISO file(s).
+echo.
+pause
+goto eof
 
 
 :CUE-GDI-ISO-to-CHD-CD
 cls
+echo.
+echo ============ CD to CHD ============
+echo.
 set "startTime=%time%"
 for /r %%i in (*.cue, *.gdi, *.iso) do (
     echo.
@@ -101,6 +103,9 @@ goto Finished
 
 :CUE-GDI-ISO-to-CHD-DVD
 cls
+echo.
+echo ============ DVD to CHD ============
+echo.
 for /r %%i in (*.cue,*.gdi, *.iso) do (
     echo.
     call echo Progress: %%compressedFileCount%% of %%otherFileCount%%
@@ -124,6 +129,9 @@ goto Finished
 
 :CUE-GDI-ISO-to-CHD-DVD-PSP
 cls
+echo.
+echo ============ PSP DVD to CHD ============
+echo.
 for /r %%i in (*.cue, *.gdi, *.iso) do (
     echo.
     call echo Progress: %%compressedFileCount%% of %%otherFileCount%%
@@ -147,6 +155,9 @@ goto Finished
 
 :Extract-DVD-CHD-to-ISO
 cls
+echo.
+echo ============ CHD to ISO ============
+echo.
 for /r %%i in (*.chd) do (
     echo.
     call echo Progress: %%decompressedFileCount%% of %%chdFileCount%%
@@ -170,6 +181,9 @@ goto Finished
 
 :Extract-CD-CHD-to-CUE
 cls
+echo.
+echo ============ CHD to CUE/BIN ============
+echo.
 for /r %%i in (*.chd) do (
     echo.
     call echo Progress: %%decompressedFileCount%% of %%chdFileCount%%
@@ -193,6 +207,9 @@ goto Finished
 
 :Extract-CD-CHD-to-GDI
 cls
+echo.
+echo ============ CHD to GDI ============
+echo.
 for /r %%i in (*.chd) do (
     echo.
     call echo Progress: %%decompressedFileCount%% of %%chdFileCount%%
@@ -256,7 +273,7 @@ for /r %%i in (*.chd) do (
 )
 set "endTime=%time%"
 echo.
-echo Done!
+echo ============== Done! ==============
 echo.
 echo %chdFileCount% .CHD file(s) remaining
 echo %otherFileCount% .CUE/.GDI/.ISO file(s) remaining
