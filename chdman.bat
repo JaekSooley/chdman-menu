@@ -22,10 +22,10 @@ set "deleteSourceFiles=1"
 
 :Welcome
 cls
-echo.
-echo ============ Main Menu ============
-echo.
 call :GetFileCounts
+echo.
+echo ================= Main Menu =================
+echo.
 if %totalFileCount%==0 goto NoSourceFiles
 echo.
 echo Select which operation you'd like to perform.
@@ -43,7 +43,7 @@ set /p "input=input->"
 :AskDeleteFiles
 cls
 echo.
-echo =========== Delete Files? ===========
+echo =============== Delete Files? ===============
 echo.
 echo Delete source file(s) after compression/extraction?
 echo.
@@ -77,7 +77,7 @@ goto eof
 :CUE-GDI-ISO-to-CHD-CD
 cls
 echo.
-echo ============ CD to CHD ============
+echo ================= CD to CHD =================
 echo.
 set "startTime=%time%"
 for /r %%i in (*.cue, *.gdi, *.iso) do (
@@ -104,7 +104,7 @@ goto Finished
 :CUE-GDI-ISO-to-CHD-DVD
 cls
 echo.
-echo ============ DVD to CHD ============
+echo ================ DVD to CHD =================
 echo.
 for /r %%i in (*.cue,*.gdi, *.iso) do (
     echo.
@@ -130,7 +130,7 @@ goto Finished
 :CUE-GDI-ISO-to-CHD-DVD-PSP
 cls
 echo.
-echo ============ PSP DVD to CHD ============
+echo ============== PSP DVD to CHD ===============
 echo.
 for /r %%i in (*.cue, *.gdi, *.iso) do (
     echo.
@@ -156,7 +156,7 @@ goto Finished
 :Extract-DVD-CHD-to-ISO
 cls
 echo.
-echo ============ CHD to ISO ============
+echo ================ CHD to ISO =================
 echo.
 for /r %%i in (*.chd) do (
     echo.
@@ -182,7 +182,7 @@ goto Finished
 :Extract-CD-CHD-to-CUE
 cls
 echo.
-echo ============ CHD to CUE/BIN ============
+echo ============== CHD to CUE/BIN ===============
 echo.
 for /r %%i in (*.chd) do (
     echo.
@@ -208,7 +208,7 @@ goto Finished
 :Extract-CD-CHD-to-GDI
 cls
 echo.
-echo ============ CHD to GDI ============
+echo ================ CHD to GDI =================
 echo.
 for /r %%i in (*.chd) do (
     echo.
@@ -250,6 +250,8 @@ for /r %%i in (*.chd) do (
 )
 set /a otherFileCount=cueFileCount+gdiFileCount+isoFileCount
 set /a totalFileCount=otherFileCount+chdFileCount
+echo ============== Get files Count ==============
+echo.
 echo Checking files...
 echo.
 echo    Found %cueFileCount% .CUE file(s)
@@ -263,20 +265,9 @@ goto eof
 
 
 :Finished
-set "chdFileCount=0"
-set "otherFileCount=0"
-for /r %%i in (*.cue, *.gdi, *.iso) do (
-    set /a otherFileCount=otherFileCount+1
-)
-for /r %%i in (*.chd) do (
-    set /a chdFileCount=chdFileCount+1
-)
 set "endTime=%time%"
 echo.
-echo ============== Done! ==============
-echo.
-echo %chdFileCount% .CHD file(s) remaining
-echo %otherFileCount% .CUE/.GDI/.ISO file(s) remaining
+echo =================== Done! ===================
 echo.
 echo %compressedFileCount% files were compressed.
 echo %decompressedFileCount% files were decompressed.
@@ -285,6 +276,8 @@ echo %failureCount% files failed to process.
 echo.
 echo Start time: %startTime%
 echo End time:   %endTime%
+echo.
+call :GetFileCounts
 echo.
 pause
 goto eof
