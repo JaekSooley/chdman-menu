@@ -1,5 +1,5 @@
 @echo off
-title CHDMan Menu v1.4
+title CHDMan Menu v1.5
 
 :: File Counts
 set "chdFileCount=0"
@@ -82,7 +82,7 @@ echo.
 set "startTime=%time%"
 for /r %%i in (*.cue, *.gdi, *.iso) do (
     echo.
-    call echo Progress: %%compressedFileCount%% of %%otherFileCount%%
+    call echo Progress: %%compressedFileCount%% of %%otherFileCount%% done
     echo.
     set /a failureCount=failureCount+1
     chdman createcd -i "%%i" -o "%%~pi%%~ni.chd" && (
@@ -96,7 +96,7 @@ for /r %%i in (*.cue, *.gdi, *.iso) do (
     )
 )
 echo.
-echo Progress: %compressedFileCount% of %otherFileCount%
+echo Progress: %compressedFileCount% of %otherFileCount% done
 echo.
 goto Finished
 
@@ -108,7 +108,7 @@ echo ================ DVD to CHD =================
 echo.
 for /r %%i in (*.cue,*.gdi, *.iso) do (
     echo.
-    call echo Progress: %%compressedFileCount%% of %%otherFileCount%%
+    call echo Progress: %%compressedFileCount%% of %%otherFileCount%% done
     echo.
     set /a failureCount=failureCount+1
     chdman createdvd -i "%%i" -o "%%~pi%%~ni.chd" && (
@@ -122,7 +122,7 @@ for /r %%i in (*.cue,*.gdi, *.iso) do (
     )
 )
 echo.
-echo Progress: %compressedFileCount% of %otherFileCount%
+echo Progress: %compressedFileCount% of %otherFileCount% done
 echo.
 goto Finished
 
@@ -134,7 +134,7 @@ echo ============== PSP DVD to CHD ===============
 echo.
 for /r %%i in (*.cue, *.gdi, *.iso) do (
     echo.
-    call echo Progress: %%compressedFileCount%% of %%otherFileCount%%
+    call echo Progress: %%compressedFileCount%% of %%otherFileCount%% done
     echo.
     set /a failureCount=failureCount+1
     chdman createdvd -hs 2048 -i "%%i" -o "%%~pi%%~ni.chd" && (
@@ -148,7 +148,7 @@ for /r %%i in (*.cue, *.gdi, *.iso) do (
     )
 )
 echo.
-echo Progress: %compressedFileCount% of %otherFileCount%
+echo Progress: %compressedFileCount% of %otherFileCount% done
 echo.
 goto Finished
 
@@ -160,7 +160,7 @@ echo ================ CHD to ISO =================
 echo.
 for /r %%i in (*.chd) do (
     echo.
-    call echo Progress: %%decompressedFileCount%% of %%chdFileCount%%
+    call echo Progress: %%decompressedFileCount%% of %%chdFileCount%% done
     echo.
     set /a failureCount=failureCount+1
     chdman extractdvd -i "%%i" -o "%%~pi%%~ni.iso" && (
@@ -174,7 +174,7 @@ for /r %%i in (*.chd) do (
     )
 )
 echo.
-echo Progress: %decompressedFileCount% of %chdFileCount%
+echo Progress: %decompressedFileCount% of %chdFileCount% done
 echo.
 goto Finished
 
@@ -186,7 +186,7 @@ echo ============== CHD to CUE/BIN ===============
 echo.
 for /r %%i in (*.chd) do (
     echo.
-    call echo Progress: %%decompressedFileCount%% of %%chdFileCount%%
+    call echo Progress: %%decompressedFileCount%% of %%chdFileCount%% done
     echo.
     set /a failureCount=failureCount+1
     chdman extractcd -i "%%i" -o "%%~pi%%~ni.cue" && (
@@ -200,7 +200,7 @@ for /r %%i in (*.chd) do (
     )
 )
 echo.
-echo Progress: %decompressedFileCount% of %chdFileCount%
+echo Progress: %decompressedFileCount% of %chdFileCount% done
 echo.
 goto Finished
 
@@ -212,7 +212,7 @@ echo ================ CHD to GDI =================
 echo.
 for /r %%i in (*.chd) do (
     echo.
-    call echo Progress: %%decompressedFileCount%% of %%chdFileCount%%
+    call echo Progress: %%decompressedFileCount%% of %%chdFileCount%% done
     echo.
     set /a failureCount=failureCount+1
     chdman extractcd -i "%%i" -o "%%~pi%%~ni.gdi" && (
@@ -226,7 +226,7 @@ for /r %%i in (*.chd) do (
     )
 )
 echo.
-echo Progress: %decompressedFileCount% of %chdFileCount%
+echo Progress: %decompressedFileCount% of %chdFileCount% done
 echo.
 goto Finished
 
