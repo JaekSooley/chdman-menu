@@ -17,7 +17,7 @@ set "startTime=%time%"
 set "endTime=%time%"
 set "failureList=null"
 
-set "deleteSourceFiles=0"
+set "deleteSourceFiles=1"
 
 
 
