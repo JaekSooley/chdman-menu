@@ -1,6 +1,6 @@
 # chdman-menu
 
-Crams all those batch files everyone's sharing around into a single batch file, and adds some QoL features.
+Crams all those batch files everyone's sharing around into a single file, and adds some QoL features.
 
 ## Instructions:
 - Place chdman.exe and chdman.bat in the same directory as the files you wish to process.
