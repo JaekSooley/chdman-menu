@@ -3,7 +3,10 @@ title CHDMan Menu v1.3
 
 
 set "chdFileCount=0"
-set "otherFileCount=0"
+set "cueFileCount=0"
+set "gdiFileCount=0"
+set "isoFileCount=0"
+set "totalFileCount=0"
 
 set "compressedFileCount=0"
 set "decompressedFileCount=0"
@@ -17,17 +20,9 @@ set "failureList=null"
 set "deleteSourceFiles=0"
 
 
-:Welcome
-for /r %%i in (*.cue, *.gdi, *.iso) do (
-    set /a otherFileCount=otherFileCount+1
-)
-for /r %%i in (*.chd) do (
-    set /a chdFileCount=chdFileCount+1
-)
-if %otherFileCount% GTR 0 goto SelectOperation
-if %chdFileCount% GTR 0 goto SelectOperation
-goto NoSourceFiles
 
+:Welcome
+goto SelectOperation
 
 :NoSourceFiles
 cls
@@ -41,10 +36,11 @@ goto eof
 
 
 :SelectOperation
-cls
 echo.
-echo %otherFileCount% file(s) found
-echo %chdFileCount% .CHD file(s) found
+echo ============ Main Menu ============
+echo.
+call :GetFileCounts
+if %totalFileCount%==0 goto NoSourceFiles
 echo.
 echo Select which operation you'd like to perform.
 echo.
@@ -58,6 +54,8 @@ echo    [6] Extract CD CHD to GDI
 echo.
 set /p "input=input->"
 cls
+echo.
+echo ============ Main Menu ============
 echo.
 echo Delete source file(s) after compression/extraction?
 echo.
@@ -216,6 +214,37 @@ echo.
 goto Finished
 
 
+:GetFileCounts
+set "cueFileCount=0"
+set "gdiFileCount=0"
+set "isoFileCount=0"
+set "chdFileCount=0"
+for /r %%i in (*.cue) do (
+    set /a cueFileCount=cueFileCount+1
+)
+for /r %%i in (*.gdi) do (
+    set /a gdiFileCount=gdiFileCount+1
+)
+for /r %%i in (*.iso) do (
+    set /a isoFileCount=isoFileCount+1
+)
+for /r %%i in (*.chd) do (
+    set /a chdFileCount=chdFileCount+1
+)
+set /a otherFileCount=cueFileCount+gdiFileCount+isoFileCount
+set /a totalFileCount=otherFileCount+chdFileCount
+echo Checking files...
+echo.
+echo    Found %cueFileCount% .CUE file(s)
+echo    Found %gdiFileCount% .GDI file(s)
+echo    Found %isoFileCount% .ISO file(s)
+echo    Found %chdFileCount% .CHD file(s)
+echo.
+echo Total: %totalFileCount% valid file(s)
+echo.
+goto eof
+
+
 :Finished
 set "chdFileCount=0"
 set "otherFileCount=0"
@@ -229,8 +258,8 @@ set "endTime=%time%"
 echo.
 echo Done!
 echo.
-echo %otherFileCount% file(s) found
-echo %chdFileCount% .CHD file(s) found
+echo %chdFileCount% .CHD file(s) remaining
+echo %otherFileCount% .CUE/.GDI/.ISO file(s) remaining
 echo.
 echo %compressedFileCount% files were compressed.
 echo %decompressedFileCount% files were decompressed.
