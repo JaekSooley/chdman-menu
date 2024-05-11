@@ -26,8 +26,6 @@ call :GetFileCounts
 echo.
 echo ================= Main Menu =================
 echo.
-if %totalFileCount%==0 goto NoSourceFiles
-echo.
 echo Select which operation you'd like to perform.
 echo.
 echo    [1] Create CD CHD file(s) - PSX, Dreamcast, NeoGeo CD, (some) PS2
