@@ -7,6 +7,7 @@ set "cueFileCount=0"
 set "gdiFileCount=0"
 set "isoFileCount=0"
 set "totalFileCount=0"
+set "binFileCount=0"
 
 :: Progress Tracking
 set "compressedFileCount=0"
@@ -234,6 +235,7 @@ set "cueFileCount=0"
 set "gdiFileCount=0"
 set "isoFileCount=0"
 set "chdFileCount=0"
+set "binFileCount=0"
 for /r %%i in (*.cue) do (
     set /a cueFileCount=cueFileCount+1
 )
@@ -246,13 +248,16 @@ for /r %%i in (*.iso) do (
 for /r %%i in (*.chd) do (
     set /a chdFileCount=chdFileCount+1
 )
+for /r %%i in (*.bin) do (
+    set /a binFileCount=binFileCount+1
+)
 set /a otherFileCount=cueFileCount+gdiFileCount+isoFileCount
 set /a totalFileCount=otherFileCount+chdFileCount
 echo ============== Get files Count ==============
 echo.
 echo Checking files...
 echo.
-echo    Found %cueFileCount% .CUE file(s)
+echo    Found %cueFileCount% .CUE file(s) (%binFileCount% .BIN files)
 echo    Found %gdiFileCount% .GDI file(s)
 echo    Found %isoFileCount% .ISO file(s)
 echo    Found %chdFileCount% .CHD file(s)
